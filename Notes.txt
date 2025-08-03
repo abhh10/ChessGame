@@ -1,0 +1,2 @@
+abhi we have made a join in app.js right.
+video main nhi hai he just used if else wala statements so see for it
