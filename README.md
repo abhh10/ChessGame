@@ -1,4 +1,4 @@
-```markdown
+
 # ♟️ Multiplayer Chess Game
 
 A real-time multiplayer chess application built using **Node.js**, **Socket.IO**, **chess.js**, and **HTML/CSS (with Tailwind)**.  
