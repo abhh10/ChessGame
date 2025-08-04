@@ -26,26 +26,6 @@ _(Replace with your actual deployment URL)_
 
 ---
 
-## 📁 Project Structure
-
-> _(Assumed basic layout, add/edit if needed)_
-
-```
-
-multiplayer-chess/
-├── public/
-│   └── index.html
-├── src/
-│   ├── board.js
-│   └── socket.js
-├── server.js
-├── package.json
-└── tailwind.config.js
-
-````
-
----
-
 ## ⚙️ Requirements
 
 - **Node.js v14+**
