@@ -8,8 +8,8 @@ Players can join a shared game session, receive roles (White or Black), make val
 
 ## 🌐 Live Demo
 
-🔗 **Vercel Link**: https://your-vercel-app.vercel.app  
-_(Replace with your actual deployment URL)_
+🔗 **Render Link**: [https://chessgame-wbe0.onrender.com]
+
 
 ---
 
