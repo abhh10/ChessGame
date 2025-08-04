@@ -1,19 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multiplayer Chess</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    .chessboard {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      width: 24rem;
+      height: 24rem;
+      border: 4px solid #222;
+    }
+
+    .square {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      position: relative;
+      user-select: none;
+    }
+
+    .light {
+      background-color: #f0d9b5;
+    }
+
+    .dark {
+      background-color: #b58863;
+    }
+
+    .piece {
+      cursor: grab;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      z-index: 1;
+    }
+
+    .white {
+      color: #fff;
+      text-shadow: 0 0 2px #222;
+    }
+
+    .black {
+      color: #000;
+      text-shadow: 0 0 1px #fff;
+    }
+  </style>
 </head>
-<body>
-    <h1>Index page</h1>
+<body class="bg-zinc-900">
 
+  <div class="flex flex-col items-center justify-center h-screen space-y-4">
+    <!-- Player Info -->
+    <div id="playerRoleIndicator" class="text-white text-xl"></div>
 
+    <!-- Chess Board -->
+    <div id="chessboardContainer" class="chessboard bg-red-400 shadow-lg"></div>
+  </div>
 
+  <!-- Socket.io -->
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
 
+  <!-- Chess.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+  <!-- Script -->
+  <script src="/js/chessgame.js"></script>
 
-    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
-    <script src = "/js/chessgame.js"></script>
 </body>
 </html>

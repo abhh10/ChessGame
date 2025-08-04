@@ -1,51 +1,68 @@
 const express = require('express');
-const app = express(); 
-const socket = require('socket.io');
 const http = require('http');
-const { Chess } = require('chess.js');
+const socketIo = require('socket.io');
 const path = require('path');
-const { title } = require('process');
+const { Chess } = require('chess.js');
 
-
+const app = express();
 const server = http.createServer(app);
-const io = socket(server);
+const io = socketIo(server);
 
 const chess = new Chess();
-let players = {};
-let currentPlayer = 'W';
+const players = [];
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.render("index" , {title: "Chess Game"});
+  res.render("index", { title: "Chess Game" });
 });
 
-io.on("connection", (socket) => {
-  console.log('A user connected: ' + socket.id);
+io.on('connection', (socket) => {
+  console.log("New client connected:", socket.id);
 
-  socket.on("join", (color) => {
-    players[socket.id] = color;
-    socket.join(color);
-    currentPlayer = color === 'W' ? 'B' : 'W';
-  });
+  // Assign role: 'W' to first, then 'B'
+  if (players.length < 2) {
+    const role = players.length === 0 ? 'W' : 'B';
+    players.push({ id: socket.id, role });
+    socket.emit("assignRole", role);
+    console.log(`Assigned role ${role} to ${socket.id}`);
+  } else {
+    socket.emit("assignRole", null);
+    return;
+  }
 
+  // Handle move from client
   socket.on("move", (move) => {
-    if (players[socket.id] === currentPlayer) {
-      const result = chess.move(move);
-      if (result) {
-        io.emit("move", result);
-        currentPlayer = currentPlayer === 'W' ? 'B' : 'W';
-      }
+    const player = players.find(p => p.id === socket.id);
+    if (!player) return;
+
+    const expectedTurn = chess.turn() === 'w' ? 'W' : 'B';
+
+    if (player.role !== expectedTurn) {
+      socket.emit("invalidMove", "Not your turn");
+      return;
+    }
+
+    const result = chess.move(move);
+
+    if (result) {
+      io.emit("move", move); // send to all clients
+    } else {
+      socket.emit("invalidMove", "Illegal move");
     }
   });
 
+  // Handle disconnect
   socket.on("disconnect", () => {
-    console.log('User disconnected: ' + socket.id);
-    delete players[socket.id];
+    console.log("User disconnected:", socket.id);
+    const index = players.findIndex(p => p.id === socket.id);
+    if (index !== -1) {
+      players.splice(index, 1);
+    }
   });
 });
 
 server.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  console.log("Server listening on http://localhost:3000");
 });
